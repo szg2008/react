@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React:ref</title>
+	<script src="./lib/react.js"></script>
+	<script src="./lib/reactdom.js"></script>
+	<script src="./lib/JSXTransformer.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/jsx">
+		/**
+			refs为获取表单项的值提供了便利，它除了可以是字符串之外，还可以是一个function，参数是就是这个表单对象,如下inputFun(comp),comp就是input对象，直接可以对其进行操作
+		**/
+		var FormApp = React.createClass({
+			getInitialState:function(){
+				return {
+					inputValue:'input value',
+					selectValue:'A',
+					radioValue:'B',
+					checkboxValue:[],
+					textareaValue:'some text here...'
+				}
+			},
+			handleSubmit:function(e){
+				e.preventDefault();
+				// console.log(e);
+				console.log(this.refs);
+				var formData = {
+					input:this.refs['goodInput'].value,
+					select:this.refs['goodSelect'].value,
+					textarea:this.refs['goodTextarea'].value,
+					radio:this.state.radioValue,
+					checkbox:this.state.checkboxValue
+				};
+				console.log(formData);
+				this.refs.goodRadio.saySomeThing();
+			},
+			inputFun:function(comp){
+				comp.focus();
+			},
+			handleRadio:function(e){
+				this.setState({
+					radioValue:e.target.value
+				});
+			},
+			handleCheckbox:function(e){
+				var checkvalues = this.state.checkboxValue.slice();
+				var newValue = e.target.value;
+				var index = checkvalues.indexOf(newValue);
+				if(index == -1){
+					checkvalues.push(newValue);
+				}else{
+					checkvalues.splice(index,1);
+				}
+				this.setState({
+					checkboxValue:checkvalues
+				});
+			},
+			render:function(){
+				/**
+					表单在使用的时候需要将默认的value改成defaultValue,否则表单的值是只读状态，不能修改，如果要写value属性代替defaultValue的话，需要添加onChange事件监听表单值的变化。
+					如果一个form里面有很多表单需要这样做，岂不是很繁琐，那么就要使用ref属性
+				**/
+				return (
+					<form onSubmit={this.handleSubmit}>
+						<input type="text" defaultValue={this.state.inputValue} ref={this.inputFun}/>
+						<br/>
+						<select defaultValue={this.state.selectValue} ref="goodSelect">
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						</select>
+						<br/>
+						<p>radio button</p>
+						<RadioButtons handleRadio={this.handleRadio} ref="goodRadio"/>
+						<p>checkbox button</p>
+						<CheckboxButtons handleCheckbox={this.handleCheckbox}/>
+						<br/>
+						<textarea defaultValue={this.state.textareaValue} ref="goodTextarea"></textarea>
+						<br/>
+						<button type="submit">提交</button>
+					</form>
+				)
+			}
+		});
+
+		var RadioButtons = React.createClass({
+			saySomeThing:function(){
+				alert('this is good');
+			},
+			render:function(){
+				return (
+					<span>
+						A：
+						<input type="radio" name="goodradio" defaultValue="A" onChange={this.props.handleRadio}/>
+						B：
+						<input type="radio" name="goodradio" defaultValue="B" defaultChecked onChange={this.props.handleRadio}/>
+						C：
+						<input type="radio" name="goodradio" defaultValue="C" onChange={this.props.handleRadio}/>
+					</span>
+				);
+			}
+		});
+
+		var CheckboxButtons = React.createClass({
+			render:function(){
+				return (
+					<span>
+						A：
+						<input type="checkbox" name="goodradio" defaultValue="A" onChange={this.props.handleCheckbox}/>
+						B：
+						<input type="checkbox" name="goodradio" defaultValue="B" onChange={this.props.handleCheckbox}/>
+						C：
+						<input type="checkbox" name="goodradio" defaultValue="C" onChange={this.props.handleCheckbox}/>
+					</span>
+				);
+			}
+		});
+
+		console.log(ReactDOM);
+		var formApp = ReactDOM.render(
+			<FormApp/>,
+			document.getElementById('app')
+		)
+	</script>
+</body>
+</html>

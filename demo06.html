@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React:two way date flow</title>
+	<script src="./lib/react.js"></script>
+	<script src="./lib/JSXTransformer.js"></script>
+	<script src="./lib/reactdom.js"></script>
+	<script src="./lib/react_with_addons.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/jsx">
+		var EasyForm = React.createClass({
+			mixins:[React.addons.LinkedStateMixin],
+			getInitialState:function(){
+				return {
+					message:'react is awesome',
+					isReactAwesome:true
+				}
+			},
+			render:function(){
+				return (
+					<div>
+						<h1>我想说：{this.state.message}</h1>
+						<h2>React是不是很好用?{this.state.isReactAwesome?'好用':'一般般。。。'}</h2>
+						<input type="text" valueLink={this.LinkState('message')}/>
+						<br/>
+						<input type="checkbox" checkedLink={this.LinkState('isReactAwesome')}/>
+					</div>
+				);
+			}
+		});
+
+		console.log(ReactDOM);
+
+		ReactDOM.render(
+			<EasyForm/>,
+			document.getElementById('app')
+		);
+	</script>
+</body>
+</html>

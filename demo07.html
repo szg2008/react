@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React:lifecycle</title>
+	<script src="./lib/react.js"></script>
+	<script src="./lib/reactdom.js"></script>
+	<script src="./lib/JSXTransformer.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/jsx">
+		var LifeCycle = React.createClass({
+			//2.
+			getInitialState:function(){
+				console.log('getInitialState');
+				return {
+					message:'react is awesome',
+					isReactAwesome:true
+				}
+			},
+			//1.
+			getDefaultProps:function(){
+				console.log('getDefaultProps');
+			},
+			//3.
+			componentWillMount:function(){
+				console.log('componentWillMount');
+				//如果不执行componentDidMount，那么只渲染一次
+				this.setState({
+					message:'qqq'
+				});
+			},
+			//4.
+			componentDidMount:function(){
+				console.log('componentDidMount');
+				//重新渲染
+				// this.setState({
+				// 	message:'ppp'
+				// });
+				// console.log(this.getDOMNODE())
+				//通过ajax获取数据
+			},
+			componentWillUnMount:function(){
+				//通常做一些取消事件监听
+				console.log('componentWillUnMount');
+			},
+			render:function(){
+				console.log('render');
+				return (
+					<div>
+						<h1>我想说：{this.state.message}</h1>
+						<h2>React是不是很好用?{this.state.isReactAwesome?'好用':'一般般。。。'}</h2>
+					</div>
+				);
+			}
+		});
+
+		ReactDOM.render(
+			<LifeCycle/>,
+			document.getElementById('app')
+		);
+	</script>
+</body>
+</html>
