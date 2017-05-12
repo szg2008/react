@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React:createClass</title>
+	<script src="./lib/react.js"></script>
+	<script src="./lib/reactdom.js"></script>
+	<script src="./lib/JSXTransformer.js"></script>
+</head>
+<body>
+	<div id="app">
+	</div>
+	<script type="text/jsx">
+		var HelloMessage = React.createClass({
+			render:function(){
+				return (
+					<div>
+						<h2>Hello,{this.props.name},{this.props.className}</h2>
+					</div>
+				);
+			}
+		});
+		//组件的属性(如：name)可以在组件类的this.props上面获取到
+		ReactDOM.render(<HelloMessage name="React" className="green"/>,document.getElementById('app'));
+	</script>
+</body>
+</html>

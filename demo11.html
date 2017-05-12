@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React:propTypes</title>
+	<script src="./lib/react.js"></script>
+	<script src="./lib/reactdom.js"></script>
+	<script src="./lib/JSXTransformer.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/jsx">
+		var mytitle="React is Good" 
+		var MyLite = React.createClass({
+			//PropTypes:验证提供的参数是否合法
+			propTypes:{
+				title:React.PropTypes.string.isRequired
+			},
+			//设置默认的属性值
+			getDefaultProps:function(){
+				return{
+					title:'this is default title'
+				}
+			},
+			render:function(){
+				return (<h1>{this.props.title}</h1>)
+			}
+		});
+		ReactDOM.render(<MyLite title={mytitle}/>,document.getElementById('app'));
+	</script>
+</body>
+</html>

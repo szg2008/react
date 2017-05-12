@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>React:lifecycle</title>
+	<title>React:lifecycle生命周期</title>
 	<script src="./lib/react.js"></script>
 	<script src="./lib/reactdom.js"></script>
 	<script src="./lib/JSXTransformer.js"></script>
@@ -10,54 +10,46 @@
 <body>
 	<div id="app"></div>
 	<script type="text/jsx">
-		var LifeCycle = React.createClass({
-			//2.
+		/*
+			组件的生命周期分成三个阶段：
+				1.Mounting:已经插入真是DOM
+				2.Updating:正在被重新渲染
+				3.Unmounting:已移出真实DOM
+			每个状态有两种处理函数：will(进入状态之前调用)、did(进入状态之后调用)
+			componentWillMount()、componentDidMount(可以在这个阶段进行ajax请求)、componentWillUpdate()、componentDidUpdate()、componentWillUnmount()
+			还有两种特殊状态的函数：
+				componentWillReceiveProps()已加载组件收到新的参数时调用
+				shouldComponentUpdate(组件判断是否重新渲染时调用)
+		*/
+		var Hello = React.createClass({
 			getInitialState:function(){
-				console.log('getInitialState');
 				return {
-					message:'react is awesome',
-					isReactAwesome:true
+					opacity:1.0
 				}
 			},
-			//1.
-			getDefaultProps:function(){
-				console.log('getDefaultProps');
-			},
-			//3.
-			componentWillMount:function(){
-				console.log('componentWillMount');
-				//如果不执行componentDidMount，那么只渲染一次
-				this.setState({
-					message:'qqq'
-				});
-			},
-			//4.
-			componentDidMount:function(){
-				console.log('componentDidMount');
-				//重新渲染
-				// this.setState({
-				// 	message:'ppp'
-				// });
-				// console.log(this.getDOMNODE())
-				//通过ajax获取数据
-			},
-			componentWillUnMount:function(){
-				//通常做一些取消事件监听
-				console.log('componentWillUnMount');
+			componentDidMount:function(){	
+				this.timer = setInterval(function(){
+					var opacity = this.state.opacity;
+					opacity -= .05;
+					if(opacity < 0.1){
+						opacity = 1.0
+					}
+					this.setState({
+						opacity:opacity
+					});
+				}.bind(this), 30);
 			},
 			render:function(){
-				console.log('render');
 				return (
-					<div>
-						<h1>我想说：{this.state.message}</h1>
-						<h2>React是不是很好用?{this.state.isReactAwesome?'好用':'一般般。。。'}</h2>
+					<div style={{opacity:this.state.opacity}}>
+						Hello {this.props.name}
 					</div>
 				);
 			}
 		});
 
 		ReactDOM.render(
-			<LifeCycle/>,
+			<Hello name="World"/>,
 			document.getElementById('app')
 		);
 	</script>

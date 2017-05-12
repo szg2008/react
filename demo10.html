@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React:this.props.children</title>
+	<script src="./lib/react.js"></script>
+	<script src="./lib/reactdom.js"></script>
+	<script src="./lib/JSXTransformer.js"></script>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/jsx">
+		var NodeList = React.createClass({
+			render:function(){
+				console.log(React.Children);
+				console.log(this.props.children);
+				return (
+					<div>
+						<ul>
+							{
+								React.Children.map(this.props.children,function(child){
+									return <li>{child}</li>
+								})
+							}
+						</ul>
+					</div>
+				);
+			}
+		});
+		ReactDOM.render(
+			<NodeList>
+				<span>nodelist first</span>
+				<span>nodelist second</span>
+				<span>nodelist third</span>
+			</NodeList>,
+		document.getElementById('app'));
+	</script>
+</body>
+</html>

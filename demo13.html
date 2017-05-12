@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>React:this.state getInitialState</title>
+	<script src="./lib/react.js"></script>
+	<script src="./lib/reactdom.js"></script>
+	<script src="./lib/JSXTransformer.js"></script>
+	<style>
+		.show{display:block;}
+		.hide{display:none;}
+	</style>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/jsx">
+		//this.props 表示那些一旦定义，就不再改变的特性，而 this.state 是会随着用户互动而产生变化的特性
+		var MyState = React.createClass({
+			getInitialState:function(){
+				return {
+					liked:false,
+					classname:'show'
+				}
+			},
+			handleClick:function(e){
+				this.setState({
+					liked:!this.state.liked,
+					classname:this.state.classname=='show'?'hide':'show'
+				});
+			},
+			render:function(){
+				var text = this.state.liked?'like':'not liked';
+				return (
+					<p>
+						<span>My {text} this,please toggle it</span>
+						<h2 className={this.state.classname}>this is h2</h2>
+						<button onClick={this.handleClick}>click me!!</button>
+					</p>
+				);
+			}
+		});
+
+		ReactDOM.render(<MyState/>,document.getElementById('app'));
+	</script>
+</body>
+</html>
