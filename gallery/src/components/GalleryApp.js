@@ -15,9 +15,34 @@ imageDatas = (function getImageURL(imageDataArr){
 	}
 	return imageDataArr;
 })(imageDatas);
+var ImgFigure = React.createClass({
+	render: function() {
+		return (
+			<figure class="img-figure">
+				<img src={this.props.data.imageURL} alt={this.props.data.title} />
+				<figcaption>
+					<h2>{this.props.data.title}</h2>
+				</figcaption>
+			</figure>
+		);
+	}
+});
 var GalleryApp = React.createClass({
   render: function() {
-    return (<section className="stage"><section className="img-sec"></section><nav className="controller-nav"></nav></section>);
+  	var controllers = [], imgFigures = []; 
+  	imageDatas.forEach(function(value){ 
+  		imgFigures.push(<ImgFigure data={value} />); 
+  	});
+    return (
+    	<section className="stage">
+    		<section className="img-sec">
+    			{imgFigures}
+    		</section>
+    		<nav className="controller-nav">
+    			{controllers}
+    		</nav>
+    	</section>
+    );
   }
 });
 React.render(<GalleryApp />, document.getElementById('content')); // jshint ignore:line
