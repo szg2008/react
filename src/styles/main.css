@@ -23,6 +23,7 @@ html, body {
 
 /* stage -- end */
 /* image -- start */
+img{width:100%;}
 .img-sec {
   position: relative;
   width: 100%;
