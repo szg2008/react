@@ -16,7 +16,7 @@ module.exports = {
     filename: 'main.js'
   },
 
-  debug: false,
+  debug: true,
   devtool: false,
   entry: './src/components/GalleryApp.js',
 
